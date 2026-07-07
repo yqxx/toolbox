@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import ToolPage from '@/components/ToolPage.vue'
+import CopyToast from '@/components/CopyToast.vue'
+import TButton from '@/components/TButton.vue'
 import { useClipboard } from '@/composables/useClipboard'
 import {
   DEFAULT_PASSWORD_OPTIONS,
@@ -55,21 +57,8 @@ generate()
 </script>
 
 <template>
-  <div class="tool-page">
-    <div class="container">
-      <header class="tool-header">
-        <RouterLink to="/" class="tool-header__back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          返回首页
-        </RouterLink>
-        <h1 class="tool-header__title">随机密码生成</h1>
-        <p class="tool-header__desc">使用加密级随机数生成安全密码，支持自定义长度与字符集</p>
-      </header>
-
-      <div class="tool-panel">
+  <ToolPage>
+    <div class="tool-panel">
         <div class="pwd-options">
           <div class="pwd-option">
             <label class="field-label" for="pwd-length">
@@ -155,22 +144,19 @@ generate()
         </div>
 
         <div class="tool-actions">
-          <button class="btn btn-primary btn-sm" @click="generate">重新生成</button>
-          <button
+          <TButton variant="primary" size="sm" @click="generate">重新生成</TButton>
+          <TButton
             v-if="passwords.length"
-            class="btn btn-secondary btn-sm"
+            size="sm"
             @click="copyAll"
           >
             {{ copied ? '已复制' : '复制全部' }}
-          </button>
+          </TButton>
         </div>
       </div>
-    </div>
+  </ToolPage>
 
-    <Teleport to="body">
-      <div v-if="copied" class="copy-toast" role="status">已复制到剪贴板</div>
-    </Teleport>
-  </div>
+  <CopyToast :show="copied" />
 </template>
 
 <style scoped>

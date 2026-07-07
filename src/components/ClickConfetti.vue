@@ -23,8 +23,28 @@ function spawn(x: number, y: number) {
   }, 1000)
 }
 
+function isInteractiveTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof Element)) return false
+
+  const interactive = target.closest(
+    [
+      'button:not(:disabled)',
+      'a[href]',
+      '[role="tab"]:not([aria-disabled="true"])',
+      '[role="button"]:not([aria-disabled="true"])',
+      'input[type="button"]:not(:disabled)',
+      'input[type="submit"]:not(:disabled)',
+      'input[type="reset"]:not(:disabled)',
+      '.tool-card',
+    ].join(','),
+  )
+
+  return interactive !== null
+}
+
 function onPointerDown(e: PointerEvent) {
   if (e.button !== 0) return
+  if (!isInteractiveTarget(e.target)) return
   spawn(e.clientX, e.clientY)
 }
 

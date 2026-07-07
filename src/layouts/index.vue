@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import { useTheme } from "@/composables/useTheme";
+import { useFocusMode } from "@/composables/useFocusMode";
+import NavToolsMenu from "@/components/NavToolsMenu.vue";
 
 const { theme, toggleTheme } = useTheme();
-const toolsAnchor = `${import.meta.env.BASE_URL}#tools`;
+const { focusMode } = useFocusMode();
 </script>
 
 <template>
   <div class="app-layout">
     <header class="nav">
       <div class="container nav__inner">
-        <RouterLink to="/" class="nav__brand">
+        <RouterLink to="/" class="nav__brand" aria-label="Toolbox 首页">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -30,13 +32,11 @@ const toolsAnchor = `${import.meta.env.BASE_URL}#tools`;
           <span>Toolbox</span>
         </RouterLink>
 
-        <nav class="nav__links" aria-label="主导航">
-          <RouterLink to="/" class="nav__link">首页</RouterLink>
-          <a :href="toolsAnchor" class="nav__link">工具</a>
-        </nav>
+        <div class="nav__actions">
+          <NavToolsMenu />
 
-        <button
-          class="btn-ghost nav__theme"
+          <button
+            class="btn-ghost nav__theme"
           :aria-label="theme === 'light' ? '切换深色模式' : '切换浅色模式'"
           @click="toggleTheme"
         >
@@ -77,6 +77,7 @@ const toolsAnchor = `${import.meta.env.BASE_URL}#tools`;
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
         </button>
+        </div>
       </div>
     </header>
 
@@ -84,7 +85,7 @@ const toolsAnchor = `${import.meta.env.BASE_URL}#tools`;
       <RouterView />
     </main>
 
-    <footer class="footer">
+    <footer v-if="!focusMode" class="footer">
       <div class="container footer__inner">
         <p class="footer__copy">Toolbox — 在线工具箱</p>
         <p class="footer__note">纯前端运行，数据不上传服务器</p>
@@ -131,36 +132,20 @@ const toolsAnchor = `${import.meta.env.BASE_URL}#tools`;
   opacity: 0.8;
 }
 
-.nav__links {
+.nav__actions {
   display: flex;
+  align-items: center;
   gap: 0.25rem;
   margin-left: auto;
 }
 
-.nav__link {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition:
-    color var(--transition),
-    background-color var(--transition);
-}
-
-.nav__link:hover,
-.nav__link.router-link-active {
-  color: var(--color-text);
-  background: var(--color-surface);
-}
-
 .nav__theme {
-  margin-left: 0.5rem;
+  flex-shrink: 0;
 }
 
 .main {
   flex: 1;
+  min-height: 0;
 }
 
 .footer {

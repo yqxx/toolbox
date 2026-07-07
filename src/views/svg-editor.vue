@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { RouterLink } from 'vue-router'
+import ToolPage from '@/components/ToolPage.vue'
+import CopyToast from '@/components/CopyToast.vue'
+import TButton from '@/components/TButton.vue'
 import { useClipboard } from '@/composables/useClipboard'
 import {
   SAMPLE_SVG,
@@ -85,21 +87,8 @@ watch([color, size, strokeWidth], () => {
 </script>
 
 <template>
-  <div class="tool-page">
-    <div class="container">
-      <header class="tool-header">
-        <RouterLink to="/" class="tool-header__back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          返回首页
-        </RouterLink>
-        <h1 class="tool-header__title">SVG 图标编辑</h1>
-        <p class="tool-header__desc">粘贴 SVG 代码，实时调整颜色、尺寸与描边宽度，并预览效果</p>
-      </header>
-
-      <div class="tool-panel">
+  <ToolPage>
+    <div class="tool-panel">
         <div class="svg-editor-layout">
           <div class="svg-editor-input">
             <label class="field-label" for="svg-input">SVG 代码</label>
@@ -212,11 +201,11 @@ watch([color, size, strokeWidth], () => {
         </div>
 
         <div class="tool-actions">
-          <button class="btn btn-secondary btn-sm" @click="loadSample">加载示例</button>
-          <button class="btn btn-secondary btn-sm" @click="clearAll">清空</button>
-          <button
+          <TButton size="sm" @click="loadSample">加载示例</TButton>
+          <TButton size="sm" @click="clearAll">清空</TButton>
+          <TButton
             v-if="hasPreview"
-            class="btn btn-secondary btn-sm"
+            size="sm"
             :disabled="isDownloading"
             @click="downloadPng"
           >
@@ -226,23 +215,21 @@ watch([color, size, strokeWidth], () => {
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             {{ isDownloading ? '生成中…' : '下载 PNG' }}
-          </button>
-          <button
+          </TButton>
+          <TButton
             v-if="hasPreview"
-            class="btn btn-primary btn-sm"
+            variant="primary"
+            size="sm"
             @click="copy(result)"
           >
             {{ copied ? '已复制' : '复制 SVG' }}
-          </button>
+          </TButton>
         </div>
         <p v-if="downloadError" class="field-error" role="alert">{{ downloadError }}</p>
       </div>
-    </div>
+  </ToolPage>
 
-    <Teleport to="body">
-      <div v-if="copied" class="copy-toast" role="status">已复制到剪贴板</div>
-    </Teleport>
-  </div>
+  <CopyToast :show="copied" />
 </template>
 
 <style scoped>

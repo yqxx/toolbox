@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string
   name: string
   description: string
-  icon: 'link' | 'clock' | 'code' | 'hash' | 'json' | 'base64' | 'ico' | 'svg' | 'key'
+  icon: 'link' | 'clock' | 'code' | 'hash' | 'json' | 'base64' | 'ico' | 'svg' | 'key' | 'markdown'
   route: string
   category: 'encode' | 'time' | 'format' | 'other'
 }
@@ -46,6 +46,14 @@ export const tools: ToolItem[] = [
     description: '粘贴 SVG 代码，实时调整颜色、尺寸与描边宽度并预览',
     icon: 'svg',
     route: '/tools/svg-editor',
+    category: 'format',
+  },
+  {
+    id: 'md-editor',
+    name: 'Markdown 排版',
+    description: '左侧编辑 Markdown，右侧实时预览排版效果，支持 35 种风格切换',
+    icon: 'markdown',
+    route: '/tools/md-editor',
     category: 'format',
   },
 ]

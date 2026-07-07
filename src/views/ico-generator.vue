@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, useTemplateRef, nextTick, onUnmounted } from 'vue'
-import { RouterLink } from 'vue-router'
+import ToolPage from '@/components/ToolPage.vue'
+import TButton from '@/components/TButton.vue'
 import {
   generateIco,
   loadImageFromFile,
@@ -108,21 +109,8 @@ onUnmounted(revokeImageUrl)
 </script>
 
 <template>
-  <div class="tool-page">
-    <div class="container">
-      <header class="tool-header">
-        <RouterLink to="/" class="tool-header__back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          返回首页
-        </RouterLink>
-        <h1 class="tool-header__title">ICO 图标生成器</h1>
-        <p class="tool-header__desc">上传图片，生成透明背景的 favicon.ico 文件，支持 PNG、JPG、GIF</p>
-      </header>
-
-      <div class="tool-panel">
+  <ToolPage>
+    <div class="tool-panel">
         <div class="ico-layout">
           <!-- Upload -->
           <div class="ico-upload-section">
@@ -158,7 +146,7 @@ onUnmounted(revokeImageUrl)
 
             <div v-else class="ico-source">
               <img :src="imageUrl" :alt="fileName" class="ico-source__img" />
-              <button class="btn btn-secondary btn-sm" @click="clearImage">重新上传</button>
+              <TButton size="sm" @click="clearImage">重新上传</TButton>
             </div>
 
             <p v-if="error" class="field-error" role="alert">{{ error }}</p>
@@ -203,8 +191,8 @@ onUnmounted(revokeImageUrl)
             </div>
 
             <div class="tool-actions" style="margin-top: 1.5rem">
-              <button
-                class="btn btn-primary"
+              <TButton
+                variant="primary"
                 :disabled="!image || isGenerating"
                 @click="downloadIco"
               >
@@ -214,7 +202,7 @@ onUnmounted(revokeImageUrl)
                   <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
                 {{ isGenerating ? '生成中…' : '下载 favicon.ico' }}
-              </button>
+              </TButton>
             </div>
           </div>
         </div>
@@ -231,8 +219,7 @@ onUnmounted(revokeImageUrl)
           </p>
         </div>
       </div>
-    </div>
-  </div>
+  </ToolPage>
 </template>
 
 <style scoped>

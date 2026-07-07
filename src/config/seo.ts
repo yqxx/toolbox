@@ -5,9 +5,9 @@ export const SITE = {
   tagline: '在线工具箱',
   title: 'Toolbox — 在线工具箱',
   description:
-    '免费在线工具箱，提供 URL 编解码、Unix 时间戳转换、ICO 图标生成、SVG 图标编辑等实用工具。纯前端运行，数据不上传服务器。',
+    '免费在线工具箱，提供 URL 编解码、Unix 时间戳转换、ICO 图标生成、SVG 图标编辑、Markdown 排版等实用工具。纯前端运行，数据不上传服务器。',
   keywords:
-    '在线工具箱,URL编解码,时间戳转换,ICO生成器,favicon,SVG编辑器,图标编辑,免费工具,前端工具',
+    '在线工具箱,URL编解码,时间戳转换,ICO生成器,favicon,SVG编辑器,Markdown排版,免费工具,前端工具',
   url: 'https://yqxx.github.io/toolbox',
   locale: 'zh_CN',
   image: 'https://yqxx.github.io/toolbox/favicon.ico',

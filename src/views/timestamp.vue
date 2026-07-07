@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { RouterLink } from 'vue-router'
+import ToolPage from '@/components/ToolPage.vue'
+import CopyToast from '@/components/CopyToast.vue'
+import TButton from '@/components/TButton.vue'
+import SegmentTabs from '@/components/SegmentTabs.vue'
 import { useClipboard } from '@/composables/useClipboard'
 
 const timestampInput = ref('')
 const dateInput = ref('')
 const unit = ref<'s' | 'ms'>('s')
+const unitTabs = [
+  { value: 's' as const, label: '秒 (s)' },
+  { value: 'ms' as const, label: '毫秒 (ms)' },
+]
 const now = ref(Date.now())
 const tsError = ref('')
 const dateError = ref('')
@@ -95,21 +102,8 @@ function clearAll() {
 </script>
 
 <template>
-  <div class="tool-page">
-    <div class="container">
-      <header class="tool-header">
-        <RouterLink to="/" class="tool-header__back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          返回首页
-        </RouterLink>
-        <h1 class="tool-header__title">时间戳转换</h1>
-        <p class="tool-header__desc">Unix 时间戳与日期时间互转，支持秒级与毫秒级</p>
-      </header>
-
-      <div class="now-bar">
+  <ToolPage>
+    <div class="now-bar">
         <div class="now-bar__item">
           <span class="now-bar__label">当前时间戳</span>
           <code class="now-bar__value">{{ currentTimestamp }}</code>
@@ -118,30 +112,16 @@ function clearAll() {
           <span class="now-bar__label">当前时间</span>
           <code class="now-bar__value">{{ currentDate }}</code>
         </div>
-        <button class="btn btn-secondary btn-sm" @click="useNow">使用当前时间</button>
+        <TButton size="sm" @click="useNow">使用当前时间</TButton>
       </div>
 
       <div class="tool-panel">
-        <div class="mode-tabs" role="tablist">
-          <button
-            role="tab"
-            class="mode-tab"
-            :class="{ 'mode-tab--active': unit === 's' }"
-            :aria-selected="unit === 's'"
-            @click="unit = 's'; parseTimestamp(timestampInput)"
-          >
-            秒 (s)
-          </button>
-          <button
-            role="tab"
-            class="mode-tab"
-            :class="{ 'mode-tab--active': unit === 'ms' }"
-            :aria-selected="unit === 'ms'"
-            @click="unit = 'ms'; parseTimestamp(timestampInput)"
-          >
-            毫秒 (ms)
-          </button>
-        </div>
+        <SegmentTabs
+          v-model="unit"
+          :tabs="unitTabs"
+          aria-label="时间戳单位"
+          @update:model-value="parseTimestamp(timestampInput)"
+        />
 
         <div class="tool-grid-2" style="margin-top: 1.5rem">
           <div>
@@ -172,29 +152,28 @@ function clearAll() {
         </div>
 
         <div class="tool-actions">
-          <button class="btn btn-secondary btn-sm" @click="clearAll">清空</button>
-          <button
+          <TButton size="sm" @click="clearAll">清空</TButton>
+          <TButton
             v-if="timestampInput"
-            class="btn btn-primary btn-sm"
+            variant="primary"
+            size="sm"
             @click="copy(timestampInput)"
           >
             复制时间戳
-          </button>
-          <button
+          </TButton>
+          <TButton
             v-if="dateInput"
-            class="btn btn-primary btn-sm"
+            variant="primary"
+            size="sm"
             @click="copy(dateInput)"
           >
             复制日期
-          </button>
+          </TButton>
         </div>
       </div>
-    </div>
+  </ToolPage>
 
-    <Teleport to="body">
-      <div v-if="copied" class="copy-toast" role="status">已复制到剪贴板</div>
-    </Teleport>
-  </div>
+  <CopyToast :show="copied" />
 </template>
 
 <style scoped>
@@ -228,34 +207,5 @@ function clearAll() {
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 0.9375rem;
   font-weight: 500;
-}
-
-.mode-tabs {
-  display: inline-flex;
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.mode-tab {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
-}
-
-.mode-tab:hover {
-  background: var(--color-surface);
-}
-
-.mode-tab--active {
-  background: var(--color-cta);
-  color: #171717;
-}
-
-.mode-tab--active:hover {
-  background: var(--color-cta-hover);
 }
 </style>

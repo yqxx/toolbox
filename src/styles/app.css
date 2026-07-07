@@ -18,6 +18,7 @@
   --transition: 180ms ease;
   --max-width: 72rem;
   --nav-height: 4rem;
+  --footer-height: 5.5rem;
 }
 
 [data-theme='dark'] {
@@ -200,22 +201,6 @@ select {
   margin-bottom: 2rem;
 }
 
-.tool-header__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin-bottom: 1rem;
-  cursor: pointer;
-  transition: color var(--transition);
-}
-
-.tool-header__back:hover {
-  color: var(--color-text);
-}
-
 .tool-header__title {
   font-size: 1.75rem;
   font-weight: 700;
@@ -226,6 +211,7 @@ select {
 .tool-header__desc {
   color: var(--color-text-muted);
   font-size: 1rem;
+  margin-top: 0.375rem;
 }
 
 .tool-panel {

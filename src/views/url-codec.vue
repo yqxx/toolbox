@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { RouterLink } from 'vue-router'
+import ToolPage from '@/components/ToolPage.vue'
+import CopyToast from '@/components/CopyToast.vue'
+import TButton from '@/components/TButton.vue'
+import SegmentTabs from '@/components/SegmentTabs.vue'
 import { useClipboard } from '@/composables/useClipboard'
 
 const input = ref('')
 const output = ref('')
 const error = ref('')
 const mode = ref<'encode' | 'decode'>('encode')
+
+const modeTabs = [
+  { value: 'encode' as const, label: '编码' },
+  { value: 'decode' as const, label: '解码' },
+]
 
 const { copied, copy } = useClipboard()
 
@@ -45,41 +53,9 @@ watch([input, mode], process)
 </script>
 
 <template>
-  <div class="tool-page">
-    <div class="container">
-      <header class="tool-header">
-        <RouterLink to="/" class="tool-header__back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          返回首页
-        </RouterLink>
-        <h1 class="tool-header__title">URL 编解码</h1>
-        <p class="tool-header__desc">使用 encodeURIComponent / decodeURIComponent 进行 URL 编码与解码</p>
-      </header>
-
-      <div class="tool-panel">
-        <div class="mode-tabs" role="tablist">
-          <button
-            role="tab"
-            class="mode-tab"
-            :class="{ 'mode-tab--active': mode === 'encode' }"
-            :aria-selected="mode === 'encode'"
-            @click="mode = 'encode'"
-          >
-            编码
-          </button>
-          <button
-            role="tab"
-            class="mode-tab"
-            :class="{ 'mode-tab--active': mode === 'decode' }"
-            :aria-selected="mode === 'decode'"
-            @click="mode = 'decode'"
-          >
-            解码
-          </button>
-        </div>
+  <ToolPage>
+    <div class="tool-panel">
+        <SegmentTabs v-model="mode" :tabs="modeTabs" aria-label="编解码模式" />
 
         <div class="tool-grid-2" style="margin-top: 1.5rem">
           <div>
@@ -107,52 +83,19 @@ watch([input, mode], process)
         </div>
 
         <div class="tool-actions">
-          <button class="btn btn-secondary btn-sm" @click="swap">交换输入/输出</button>
-          <button class="btn btn-secondary btn-sm" @click="clearAll">清空</button>
-          <button
+          <TButton size="sm" @click="swap">交换输入/输出</TButton>
+          <TButton size="sm" @click="clearAll">清空</TButton>
+          <TButton
             v-if="output"
-            class="btn btn-primary btn-sm"
+            variant="primary"
+            size="sm"
             @click="copy(output)"
           >
             {{ copied ? '已复制' : '复制结果' }}
-          </button>
+          </TButton>
         </div>
       </div>
-    </div>
+  </ToolPage>
 
-    <Teleport to="body">
-      <div v-if="copied" class="copy-toast" role="status">已复制到剪贴板</div>
-    </Teleport>
-  </div>
+  <CopyToast :show="copied" />
 </template>
-
-<style scoped>
-.mode-tabs {
-  display: inline-flex;
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.mode-tab {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
-}
-
-.mode-tab:hover {
-  background: var(--color-surface);
-}
-
-.mode-tab--active {
-  background: var(--color-cta);
-  color: #171717;
-}
-
-.mode-tab--active:hover {
-  background: var(--color-cta-hover);
-}
-</style>

@@ -37,6 +37,11 @@ const router = createRouter({
           name: 'svg-editor',
           component: () => import('@/views/svg-editor.vue'),
         },
+        {
+          path: 'tools/md-editor',
+          name: 'md-editor',
+          component: () => import('@/views/md-editor.vue'),
+        },
       ],
     },
   ],
