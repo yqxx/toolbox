@@ -5,3 +5,15 @@ declare module '*.vue' {
   const component: DefineComponent<object, object, unknown>
   export default component
 }
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    seo?: {
+      title: string
+      description: string
+      keywords?: string
+    }
+  }
+}
+
+export {}

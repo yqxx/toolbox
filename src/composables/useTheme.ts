@@ -2,7 +2,7 @@ import { ref, watch, onMounted } from 'vue'
 
 type Theme = 'light' | 'dark'
 
-const STORAGE_KEY = 'devtoolbox-theme'
+const STORAGE_KEY = 'toolbox-theme'
 
 function getSystemTheme(): Theme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'

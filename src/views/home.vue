@@ -25,7 +25,7 @@ const benefits = [
 <template>
   <div class="home">
     <!-- Hero -->
-    <section class="hero">
+    <section class="hero" aria-label="网站介绍">
       <div class="container hero__layout">
         <div class="hero__content">
           <h1 class="hero__title">
@@ -42,7 +42,7 @@ const benefits = [
     </section>
 
     <!-- Benefits -->
-    <section class="benefits">
+    <section class="benefits" aria-label="产品特点">
       <div class="container">
         <ul class="benefits__list">
           <li v-for="item in benefits" :key="item.title" class="benefits__item">
@@ -98,10 +98,10 @@ const benefits = [
     </section>
 
     <!-- Tools -->
-    <section id="tools" class="tools">
+    <section id="tools" class="tools" aria-labelledby="tools-title">
       <div class="container">
         <div class="tools__header">
-          <h2 class="tools__title">工具列表</h2>
+          <h2 id="tools-title" class="tools__title">工具列表</h2>
           <p class="tools__subtitle">选择需要的工具，直接在浏览器中使用</p>
         </div>
 

@@ -63,6 +63,13 @@ defineProps<{
       <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
       <path d="M18.375 2.625a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414L14.5 12.5l-3 1 1-3Z" />
     </template>
+    <!-- key -->
+    <template v-else-if="icon === 'key'">
+      <path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" />
+      <path d="m21 2-2 2" />
+      <path d="M9 15a6 6 0 0 0 6-6" />
+      <path d="M5 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+    </template>
   </svg>
 </template>
 

@@ -23,6 +23,11 @@ const router = createRouter({
           component: () => import('@/views/timestamp.vue'),
         },
         {
+          path: 'tools/password-generator',
+          name: 'password-generator',
+          component: () => import('@/views/password-generator.vue'),
+        },
+        {
           path: 'tools/ico-generator',
           name: 'ico-generator',
           component: () => import('@/views/ico-generator.vue'),
