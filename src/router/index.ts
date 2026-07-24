@@ -13,6 +13,16 @@ const router = createRouter({
           component: () => import('@/views/home.vue'),
         },
         {
+          path: 'tools/json-formatter',
+          name: 'json-formatter',
+          component: () => import('@/views/json-formatter.vue'),
+        },
+        {
+          path: 'tools/xml-formatter',
+          name: 'xml-formatter',
+          component: () => import('@/views/xml-formatter.vue'),
+        },
+        {
           path: 'tools/url-codec',
           name: 'url-codec',
           component: () => import('@/views/url-codec.vue'),

@@ -9,6 +9,22 @@ export interface ToolItem {
 
 export const tools: ToolItem[] = [
   {
+    id: 'json-formatter',
+    name: 'JSON 格式化',
+    description: 'JSON 美化排版与压缩，支持自定义缩进，自动校验语法错误',
+    icon: 'json',
+    route: '/tools/json-formatter',
+    category: 'format',
+  },
+  {
+    id: 'xml-formatter',
+    name: 'XML 格式化',
+    description: 'XML 美化排版与压缩，支持自定义缩进，自动校验格式错误',
+    icon: 'code',
+    route: '/tools/xml-formatter',
+    category: 'format',
+  },
+  {
     id: 'url-codec',
     name: 'URL 编解码',
     description: 'Encode / Decode URL 字符串，支持 encodeURIComponent 与 decodeURIComponent',
